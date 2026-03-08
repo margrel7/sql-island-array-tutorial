@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<game>
+    <head>
+        <title>SQL Island - The Escape Protocol</title>
+        <teaser>Nova and Archivist Lyra search the Adventurers&#x2019; Guild database to find the parts needed to escape SQL Island.</teaser>
+        <copyright>&#xA9; Insert copyright here</copyright>
+    </head>
+    <scenes>
+        <manipulate-scene>
+            <text>Nova and Archivist Lyra open the Adventurers&#x2019; Guild database to investigate the malfunction in the escape system. Lyra explains that each adventurer&#x2019;s equipment is stored in an array column called inventory.
+
+Before they can locate the parts needed for the shuttle, they must first inspect the database.
+
+Task:
+Display all rows and columns from the table players.</text>
+            <sql-solution>SELECT *
+FROM players;</sql-solution>
+            <sql-check>SELECT *
+FROM players;</sql-check>
+            <sql-placeholder></sql-placeholder>
+        </manipulate-scene>
+    </scenes>
+    <initial-sql-script>
+-- SQL Island: The Escape Protocol
+-- Database setup for Eskuel Mission 1
+
+CREATE TABLE players (
+    id INTEGER,
+    name TEXT,
+    level INTEGER,
+    inventory TEXT[]
+);
+
+INSERT INTO players VALUES
+(1, &#x27;Aria&#x27;, 12, ARRAY[&#x27;engine_part&#x27;,&#x27;fuel_cell&#x27;,&#x27;toolkit&#x27;]),
+(2, &#x27;Borin&#x27;, 9, ARRAY[&#x27;navigation_chip&#x27;,&#x27;fuel_cell&#x27;]),
+(3, &#x27;Ciri&#x27;, 15, ARRAY[&#x27;repair_kit&#x27;,&#x27;oxygen_tank&#x27;,&#x27;toolkit&#x27;]),
+(4, &#x27;Darius&#x27;, 7, ARRAY[&#x27;oxygen_tank&#x27;,&#x27;fuel_cell&#x27;]),
+(5, &#x27;Lyra&#x27;, 20, ARRAY[&#x27;database_key&#x27;,&#x27;navigation_chip&#x27;,&#x27;repair_kit&#x27;]);
+</initial-sql-script>
+</game>
