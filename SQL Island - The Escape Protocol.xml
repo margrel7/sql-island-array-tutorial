@@ -6,36 +6,200 @@
         <copyright>&#xA9; Insert copyright here</copyright>
     </head>
     <scenes>
+        <text-scene>
+            <text>After years of stable databases and well-normalized tables, SQL Island had settled into a comfortable routine. Queries ran on time, joins were clean, and the island&#x2019;s inhabitants trusted their data.
+
+But the world beyond the island was evolving.</text>
+        </text-scene>
+        <text-scene>
+            <text>One stormy afternoon, a small passenger plane appeared through the clouds, trailing smoke. It clipped the treetops and crashed onto the eastern beach, scattering luggage and data science textbooks across the sand.</text>
+        </text-scene>
+        <text-scene>
+            <text>From the wreckage emerged Nova &#x2014; a data science student on her way to a conference, now stranded with nothing but her laptop and her wits.</text>
+        </text-scene>
+        <text-scene>
+            <text>As she explored the island, she discovered an old stone building with a glowing terminal inside. The screen displayed a message:
+
+WELCOME TO SQL ISLAND</text>
+        </text-scene>
+        <text-scene>
+            <text>Before Nova could investigate further, a voice spoke behind her. &#x201C;I am Archivist Lyra, keeper of the island&#x2019;s data archives.&#x201D;</text>
+        </text-scene>
+        <text-scene>
+            <text>Lyra explained that the island operates entirely on databases. Normally, an emergency shuttle could be used to leave the island, but the system controlling it is currently malfunctioning. &#x201C;The problem,&#x201D; Lyra said, pointing to the console, &#x201C;lies in the Adventurers&#x2019; Guild inventory database.&#x201D;</text>
+        </text-scene>
+        <text-scene>
+            <text>Rows of strange data appeared on the screen:
+
+Aria | {engine_part, fuel_cell, toolkit}
+
+Borin | {navigation_chip, fuel_cell}
+
+Ciri | {repair_kit, oxygen_tank, toolkit}</text>
+        </text-scene>
+        <text-scene>
+            <text>Nova frowned. &#x201C;Why are the items stored like that? Shouldn&#x2019;t each item be in its own row?&#x201D;
+
+Lyra replied calmly: &#x201C;They are stored as arrays &#x2014; ordered lists of values within a single column. It is the old way of the island. Efficient, but requires special knowledge to query.&#x201D;</text>
+        </text-scene>
+        <text-scene>
+            <text>&#x201C;If we cannot understand how these arrays work,&#x201D; Lyra continued, &#x201C;we cannot locate the parts needed to activate the escape shuttle.&#x201D;
+
+Nova sat down at the terminal. &#x201C;Well then&#x2026; let&#x2019;s start searching.&#x201D;</text>
+        </text-scene>
+        <text-scene>
+            <text>Nova needed to understand what she was working with. Lyra gestured at the terminal. &#x201C;Before you can fix anything, you must first see everything. Query the adventurers&#x2019; table to view all records.&#x201D;
+
+Nova nodded. &#x201C;Simple enough &#x2014; a basic SELECT should do it.&#x201D;</text>
+        </text-scene>
+        <select-scene is-row-order-relevant="false" is-col-order-relevant="false" are-col-names-relevant="false">
+            <text>Goal: View the current state of the adventurers&#x2019; inventories.</text>
+            <sql-solution>SELECT * 
+FROM adventurers;</sql-solution>
+            <sql-placeholder></sql-placeholder>
+        </select-scene>
+        <text-scene>
+            <text>Nova studied the results. &#x201C;Alright, I can see all the inventories. But these arrays&#x2026; how do I search inside them?&#x201D;
+
+Lyra smiled. &#x201C;That is your next challenge.&#x201D;</text>
+        </text-scene>
+        <text-scene>
+            <text>Lyra pointed to a schematic on the wall. &#x201C;The escape shuttle requires a fuel_cell to power its engines. We need to find which adventurers are currently carrying one.&#x201D;
+
+Nova looked at the array data on the screen. &#x201C;I can&#x2019;t just use WHERE inventory = &#x27;fuel_cell&#x27; &#x2014; that would try to match the entire array. I need to search inside it.&#x201D;
+</text>
+        </text-scene>
+        <select-scene is-row-order-relevant="false" is-col-order-relevant="false" are-col-names-relevant="false">
+            <text>Lyra nodded. &#x201C;Exactly. You&#x2019;ll need the ANY operator. It checks whether a value exists anywhere within an array.&#x201D;
+
+Goal: Identify which adventurers hold a fuel_cell using the ANY operator.</text>
+            <sql-solution>SELECT name FROM adventurers
+WHERE &#x27;fuel_cell&#x27; = ANY(inventory);</sql-solution>
+            <sql-placeholder></sql-placeholder>
+        </select-scene>
+        <text-scene>
+            <text>Lyra pulled up a checklist. &#x201C;The shuttle needs several components. Before we start collecting, we need a complete flat list of every item currently held by the guild &#x2014; one item per row. That way we can easily count and compare.&#x201D;</text>
+        </text-scene>
+        <text-scene>
+            <text>Nova scratched her head. &#x201C;But the items are packed inside arrays. I need to &#x2018;explode&#x2019; each array into separate rows.&#x201D;
+
+&#x201C;The function you need is called UNNEST,&#x201D; Lyra explained. &#x201C;It takes an array and expands it so that each element becomes its own row.&#x201D;</text>
+        </text-scene>
+        <select-scene is-row-order-relevant="false" is-col-order-relevant="false" are-col-names-relevant="false">
+            <text>Goal: Produce a flat list showing each adventurer and each of their items on a separate row.</text>
+            <sql-solution>SELECT name, UNNEST(inventory) AS item FROM adventurers;</sql-solution>
+            <sql-placeholder></sql-placeholder>
+        </select-scene>
+        <text-scene>
+            <text>Nova scanned the flat list. &#x201C;Now I can see everything clearly. Let me count what we have&#x2026;&#x201D;</text>
+        </text-scene>
+        <text-scene>
+            <text>With the flat inventory list in hand, Lyra traced her finger along the shuttle schematic. &#x201C;We need to know exactly how many of each part are available across the entire guild. Can you produce a count of each unique item?&#x201D;</text>
+        </text-scene>
+        <select-scene is-row-order-relevant="false" is-col-order-relevant="false" are-col-names-relevant="false">
+            <text>Nova thought for a moment. &#x201C;I already know how to unnest. Now I just need to group the results and count them.&#x201D;
+
+Goal: Count how many times each distinct item appears across all adventurers&#x2019; inventories.</text>
+            <sql-solution>SELECT item, COUNT(*) AS item_count
+FROM (
+    SELECT UNNEST(inventory) AS item FROM adventurers
+) AS expanded
+GROUP BY item
+ORDER BY item_count DESC;</sql-solution>
+            <sql-placeholder></sql-placeholder>
+        </select-scene>
+        <text-scene>
+            <text>Lyra nodded approvingly. &#x201C;We have at least two of most parts, and three fuel cells. The shuttle only needs one of each &#x2014; we have enough, provided we can collect them.&#x201D;</text>
+        </text-scene>
+        <text-scene>
+            <text>An alarm sounded from the shuttle bay. Lyra rushed Nova over to the console. &#x201C;Dorn has volunteered to be the shuttle engineer. But they&#x2019;ve just found a shield_module in the wreckage and need it added to their inventory. Can you update their record?&#x201D;</text>
+        </text-scene>
         <manipulate-scene>
-            <text>Nova and Archivist Lyra open the Adventurers&#x2019; Guild database to investigate the malfunction in the escape system. Lyra explains that each adventurer&#x2019;s equipment is stored in an array column called inventory.
+            <text>Nova hesitated. &#x201C;I can&#x2019;t just INSERT a new row &#x2014; I need to add an element to Dorn&#x2019;s existing array.&#x201D;
 
-Before they can locate the parts needed for the shuttle, they must first inspect the database.
+&#x201C;Exactly,&#x201D; said Lyra. &#x201C;Use array_append. It adds a single element to the end of an existing array.&#x201D;
 
-Task:
-Display all rows and columns from the table players.</text>
-            <sql-solution>SELECT *
-FROM players;</sql-solution>
-            <sql-check>SELECT *
-FROM players;</sql-check>
+Goal: Add the item &#x27;shield_module&#x27; to Dorn&#x2019;s inventory using array_append.</text>
+            <sql-solution>UPDATE adventurers
+SET inventory = array_append(inventory, &#x27;shield_module&#x27;)
+WHERE name = &#x27;Dorn&#x27;;</sql-solution>
+            <sql-check>SELECT * FROM adventurers WHERE name = &#x27;Dorn&#x27;;</sql-check>
             <sql-placeholder></sql-placeholder>
         </manipulate-scene>
-    </scenes>
-    <initial-sql-script>
--- SQL Island: The Escape Protocol
--- Database setup for Eskuel Mission 1
+        <text-scene>
+            <text>Nova grinned. &#x201C;Dorn is now the best-equipped adventurer on the island!&#x201D;
 
-CREATE TABLE players (
-    id INTEGER,
-    name TEXT,
-    level INTEGER,
+Lyra checked the shuttle console. &#x201C;Good. But we also need to know how many items each person is carrying. The shuttle has a weight limit&#x2026;&#x201D;</text>
+        </text-scene>
+        <text-scene>
+            <text>Lyra frowned at the shuttle specifications. &#x201C;The shuttle&#x2019;s cargo bay can only accommodate adventurers carrying 3 or more items. We need to find out who qualifies and sort them by how much they carry &#x2014; heaviest packers first.&#x201D;</text>
+        </text-scene>
+        <select-scene is-row-order-relevant="false" is-col-order-relevant="false" are-col-names-relevant="false">
+            <text>Nova realized she needed a way to measure the length of each array. &#x201C;There must be a function for that&#x2026;&#x201D;
+
+Goal: List all adventurers who carry 3 or more items, showing their name and the number of items, sorted by item count descending. Use array_length.</text>
+            <sql-solution>SELECT name, array_length(inventory, 1) AS num_items
+FROM adventurers
+WHERE array_length(inventory, 1) &#x3E;= 3
+ORDER BY num_items DESC;</sql-solution>
+            <sql-placeholder></sql-placeholder>
+        </select-scene>
+        <text-scene>
+            <text>Lyra checked the names. &#x201C;Dorn, Aria, and Ciri qualify for the shuttle. Borin and Elva will have to stay unless they gather more supplies.&#x201D;
+
+Nova looked at the screen thoughtfully. &#x201C;One more thing &#x2014; we need to make sure the right combination of parts actually makes it onto the shuttle&#x2026;&#x201D;</text>
+        </text-scene>
+        <text-scene>
+            <text>Lyra pulled up the final shuttle pre-flight checklist. &#x201C;We need to identify adventurers whose inventories overlap with the shuttle&#x2019;s required parts list. The shuttle needs: engine_part, fuel_cell, and navigation_chip. Find every adventurer who carries at least one of those parts.&#x201D;</text>
+        </text-scene>
+        <text-scene>
+            <text>Nova considered the problem. &#x201C;I could use multiple ANY checks with OR&#x2026; but there must be a more elegant way.&#x201D;
+
+Lyra nodded. &#x201C;The &#x26;&#x26; operator &#x2014; the overlap operator. It returns TRUE if two arrays share at least one common element.&#x201D;</text>
+        </text-scene>
+        <select-scene is-row-order-relevant="false" is-col-order-relevant="false" are-col-names-relevant="false">
+            <text>Goal 1: Find all adventurers whose inventory overlaps with the shuttle&#x2019;s required parts ARRAY[&#x27;engine_part&#x27;, &#x27;fuel_cell&#x27;, &#x27;navigation_chip&#x27;] using the &#x26;&#x26; operator.</text>
+            <sql-solution>SELECT name, inventory FROM adventurers
+WHERE inventory &#x26;&#x26; ARRAY[&#x27;engine_part&#x27;, &#x27;fuel_cell&#x27;, &#x27;navigation_chip&#x27;];</sql-solution>
+            <sql-placeholder></sql-placeholder>
+        </select-scene>
+        <select-scene is-row-order-relevant="false" is-col-order-relevant="false" are-col-names-relevant="false">
+            <text>Goal 2: Also determine which adventurer carries all three required parts using the @&#x3E; (contains) operator.</text>
+            <sql-solution>SELECT name, inventory FROM adventurers
+WHERE inventory @&#x3E; ARRAY[&#x27;engine_part&#x27;, &#x27;fuel_cell&#x27;, &#x27;navigation_chip&#x27;];</sql-solution>
+            <sql-placeholder></sql-placeholder>
+        </select-scene>
+        <text-scene>
+            <text>Nova jumped up from her chair. &#x201C;Dorn has everything we need! All three shuttle parts &#x2014; plus a repair kit and the shield module!&#x201D;
+
+Lyra placed her hand on the shuttle&#x2019;s activation console. &#x201C;Then our path is clear. Dorn will power the shuttle.&#x201D;</text>
+        </text-scene>
+        <text-scene>
+            <text>The terminal flashed green:
+
+&#x1F680; SHUTTLE ACTIVATED &#x2014; ESCAPE SEQUENCE INITIATED &#x1F680;</text>
+        </text-scene>
+        <text-scene>
+            <text>Nova looked back at the island one last time. The arrays that once confused her had become second nature. She had learned to search them, expand them, measure them, compare them, and update them &#x2014; all without ever leaving the SQL terminal.</text>
+        </text-scene>
+        <text-scene>
+            <text>&#x201C;Thank you, Lyra,&#x201D; she said quietly.
+
+Lyra smiled. &#x201C;The data was always there. You just needed to learn how to read it.&#x201D;</text>
+        </text-scene>
+    </scenes>
+    <initial-sql-script>-- SQL Island: The Escape Protocol
+-- Database setup
+
+CREATE TABLE adventurers (
+    name TEXT PRIMARY KEY,
     inventory TEXT[]
 );
 
-INSERT INTO players VALUES
-(1, &#x27;Aria&#x27;, 12, ARRAY[&#x27;engine_part&#x27;,&#x27;fuel_cell&#x27;,&#x27;toolkit&#x27;]),
-(2, &#x27;Borin&#x27;, 9, ARRAY[&#x27;navigation_chip&#x27;,&#x27;fuel_cell&#x27;]),
-(3, &#x27;Ciri&#x27;, 15, ARRAY[&#x27;repair_kit&#x27;,&#x27;oxygen_tank&#x27;,&#x27;toolkit&#x27;]),
-(4, &#x27;Darius&#x27;, 7, ARRAY[&#x27;oxygen_tank&#x27;,&#x27;fuel_cell&#x27;]),
-(5, &#x27;Lyra&#x27;, 20, ARRAY[&#x27;database_key&#x27;,&#x27;navigation_chip&#x27;,&#x27;repair_kit&#x27;]);
-</initial-sql-script>
+INSERT INTO adventurers (name, inventory) VALUES
+(&#x27;Aria&#x27;,  ARRAY[&#x27;engine_part&#x27;, &#x27;fuel_cell&#x27;, &#x27;toolkit&#x27;]),
+(&#x27;Borin&#x27;, ARRAY[&#x27;navigation_chip&#x27;, &#x27;fuel_cell&#x27;]),
+(&#x27;Ciri&#x27;,  ARRAY[&#x27;repair_kit&#x27;, &#x27;oxygen_tank&#x27;, &#x27;toolkit&#x27;]),
+(&#x27;Dorn&#x27;,  ARRAY[&#x27;fuel_cell&#x27;, &#x27;repair_kit&#x27;, &#x27;engine_part&#x27;, &#x27;navigation_chip&#x27;]),
+(&#x27;Elva&#x27;,  ARRAY[&#x27;oxygen_tank&#x27;]);</initial-sql-script>
 </game>
