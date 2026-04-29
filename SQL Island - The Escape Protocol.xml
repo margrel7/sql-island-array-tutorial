@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+ <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <game>
     <head>
         <title>SQL Island Sequel - The Escape Protocol (T6)</title>
@@ -61,7 +61,7 @@ FROM adventurers;</sql-solution>
             <sql-placeholder></sql-placeholder>
         </select-scene>
         <text-scene>
-            <text>Mission 1 &#x2013; SELECT: 
+            <text>Mission 1 &#x2013; Inspect the Guild Database: 
 You&#x27;ve taken your first look at the guild&#x27;s records. Every great adventure starts with knowing what you&#x27;re working with &#x2014; solid start.</text>
         </text-scene>
         <text-scene>
@@ -84,7 +84,7 @@ WHERE &#x27;fuel_cell&#x27; = ANY(inventory);</sql-solution>
             <sql-placeholder></sql-placeholder>
         </select-scene>
         <text-scene>
-            <text>Mission 2 &#x2013; ANY: 
+            <text>Mission 2 &#x2013; Find the Fuel Cell: 
 Fuel cells found! You just learned one of the most useful array tricks: searching inside a column instead of matching the whole thing. Keep that in your toolkit.</text>
         </text-scene>
         <text-scene>
@@ -101,7 +101,7 @@ Fuel cells found! You just learned one of the most useful array tricks: searchin
             <sql-placeholder></sql-placeholder>
         </select-scene>
         <text-scene>
-            <text>Mission 3 &#x2013; UNNEST: 
+            <text>Mission 3 &#x2013; Inventory Audit (Unnesting): 
 Nice work. Flattening arrays into rows unlocks everything &#x2014; counting, filtering, joining. You&#x27;ll use this one constantly.</text>
         </text-scene>
         <text-scene>
@@ -128,7 +128,7 @@ GROUP BY item
 ORDER BY item_count DESC;</sql-placeholder>
         </select-scene>
         <text-scene>
-            <text>Mission 4 &#x2013; UNNEST + GROUP BY:
+            <text>Mission 4 &#x2013; Counting the Parts:
 That&#x27;s real data engineering right there. Combining unnest with aggregation is how you turn messy array data into actual insights.</text>
         </text-scene>
         <text-scene>
@@ -150,7 +150,7 @@ WHERE name = &#x27;Dorn&#x27;;</sql-solution>
             <sql-placeholder></sql-placeholder>
         </manipulate-scene>
         <text-scene>
-            <text>Mission 5 &#x2013; array_append: 
+            <text>Mission 5 &#x2013; Equipping the Shuttle Engineer: 
 Clean update, no extra tables needed. You now know how to grow an array in place &#x2014; that&#x27;s more powerful than it looks.</text>
         </text-scene>
         <text-scene>
@@ -175,42 +175,90 @@ WHERE ... &#x3E;= 3
 ORDER BY num_items DESC;</sql-placeholder>
         </select-scene>
         <text-scene>
-            <text>Mission 6 &#x2013; array_length: Good eye for detail. Filtering and sorting by array size is a subtle but practical skill &#x2014; and you&#x27;ve got it down.</text>
+            <text>Mission 6 &#x2013; Inventory Size Check: Good eye for detail. Filtering and sorting by array size is a subtle but practical skill &#x2014; and you&#x27;ve got it down.</text>
         </text-scene>
         <text-scene>
             <text>Lyra checked the names. &#x201C;Dorn, Aria, and Ciri qualify for the shuttle. Borin and Elva will have to stay unless they gather more supplies.&#x201D;
 
-Nova looked at the screen thoughtfully. &#x201C;One more thing &#x2014; we need to make sure the right combination of parts actually makes it onto the shuttle&#x2026;&#x201D;</text>
+&#x22;Good work,&#x22; Nova said &#x2014; then paused as a new alert blinked on the panel. &#x22;Looks like we packed one too many.&#x22;</text>
+        </text-scene>
+        <text-scene>
+            <text>Lyra checked the shuttle&#x2019;s weight sensor and frowned. &#x201C;There is a problem. Dorn now carries five items, but the cargo bay limits each adventurer to four items maximum. The shield_module we just added is non-essential &#x2014; it must come off before launch.&#x201D;</text>
+        </text-scene>
+        <text-scene>
+            <text>Nova nodded. &#x201C;So I need to remove a single element from inside an array, without touching the others.&#x201D;</text>
+        </text-scene>
+        <text-scene>
+            <text>&#x201C;Exactly,&#x201D; Lyra replied. &#x201C;Use array_remove. It removes all occurrences of a given value from an array.&#x201D;</text>
+        </text-scene>
+        <manipulate-scene>
+            <text>Goal: Remove &#x27;shield_module&#x27; from Dorn&#x2019;s inventory using array_remove.</text>
+            <sql-solution>UPDATE adventurers
+SET inventory = array_remove(inventory, &#x27;shield_module&#x27;)
+WHERE name = &#x27;Dorn&#x27;;</sql-solution>
+            <sql-check>SELECT * FROM adventurers WHERE name = &#x27;Dorn&#x27;;</sql-check>
+            <sql-placeholder></sql-placeholder>
+        </manipulate-scene>
+        <text-scene>
+            <text>Mission 7 - Lightening the Load: Clean removal, no side effects. You can now add and remove individual elements from arrays with full precision &#x2014; that&#x27;s the complete update toolkit.</text>
+        </text-scene>
+        <text-scene>
+            <text>Nova confirmed the weight sensor was now green. &#x201C;Dorn is back within the limit. Ready for the next check.&#x201D;</text>
+        </text-scene>
+        <text-scene>
+            <text>Lyra examined the shuttle&#x2019;s repair manual. &#x201C;Before we check the engine parts, we need a backup engineer who carries a complete repair toolkit. The minimum required set is: repair_kit and toolkit. Find every adventurer who carries both of these items.&#x201D;</text>
+        </text-scene>
+        <text-scene>
+            <text>Nova considered her options. &#x201C;I could chain two ANY checks with AND, but that gets messy. There must be a cleaner way to ask: does this array contain all of these items?&#x201D;</text>
+        </text-scene>
+        <text-scene>
+            <text>Lyra nodded. &#x201C;The @&#x3E; operator &#x2014; the contains operator. It returns TRUE if the left array contains every element of the right array, regardless of order.&#x201D;</text>
+        </text-scene>
+        <select-scene is-row-order-relevant="false" is-col-order-relevant="false" are-col-names-relevant="false">
+            <text>Goal: Find all adventurers whose inventory contains both repair_kit AND toolkit using the @&#x3E; operator.</text>
+            <sql-solution>SELECT name, inventory FROM adventurers
+WHERE inventory @&#x3E; ARRAY[&#x27;repair_kit&#x27;, &#x27;toolkit&#x27;];</sql-solution>
+            <sql-placeholder>SELECT name, inventory FROM adventurers
+WHERE inventory ... ARRAY[&#x27;repair_kit&#x27;, &#x27;toolkit&#x27;];</sql-placeholder>
+        </select-scene>
+        <text-scene>
+            <text>Mission 8 - The Complete Toolkit (Contains): Containment mastered. You&#x27;re no longer just reading arrays &#x2014; you&#x27;re interrogating them. The @&#x3E; operator is one of PostgreSQL&#x27;s most powerful tools, and it&#x27;s now yours.</text>
+        </text-scene>
+        <text-scene>
+            <text>Nova nodded. &#x201C;Ciri has both &#x2014; she&#x2019;s our backup engineer.&#x201D;
+Lyra smiled. &#x201C;Good. Now we just need to confirm who carries the actual shuttle parts.&#x201D;
+
+</text>
         </text-scene>
         <text-scene>
             <text>Lyra pulled up the final shuttle pre-flight checklist. &#x201C;We need to identify adventurers whose inventories overlap with the shuttle&#x2019;s required parts list. The shuttle needs: engine_part, fuel_cell, and navigation_chip. Find every adventurer who carries at least one of those parts.&#x201D;</text>
         </text-scene>
         <text-scene>
-            <text>Nova considered the problem. &#x201C;I could use multiple ANY checks with OR&#x2026; but there must be a more elegant way.&#x201D;
-
-Lyra nodded. &#x201C;The &#x26;&#x26; operator &#x2014; the overlap operator. It returns TRUE if two arrays share at least one common element.&#x201D;</text>
+            <text>Nova considered the problem. &#x201C;I could use multiple ANY checks with OR&#x2026; but there must be a more elegant way.&#x201D;</text>
+        </text-scene>
+        <text-scene>
+            <text>Lyra nodded. &#x201C;The &#x26;&#x26; operator &#x2014; the overlap operator. It returns TRUE if two arrays share at least one common element.&#x201D;</text>
         </text-scene>
         <select-scene is-row-order-relevant="false" is-col-order-relevant="false" are-col-names-relevant="false">
-            <text>Goal 1: Find all adventurers whose inventory overlaps with the shuttle&#x2019;s required parts ARRAY[&#x27;engine_part&#x27;, &#x27;fuel_cell&#x27;, &#x27;navigation_chip&#x27;] using the &#x26;&#x26; operator.</text>
+            <text>Goal 1: Find all adventurers whose inventory overlaps with the shuttle&#x2019;s required parts ARRAY[&#x27;engine_part&#x27;, &#x27;fuel_cell&#x27;, &#x27;navigation_chip&#x27;] using the new &#x26;&#x26; operator. </text>
             <sql-solution>SELECT name, inventory FROM adventurers
 WHERE inventory &#x26;&#x26; ARRAY[&#x27;engine_part&#x27;, &#x27;fuel_cell&#x27;, &#x27;navigation_chip&#x27;];</sql-solution>
-            <sql-placeholder>SELECT name, inventory FROM adventurers
-WHERE inventory ... ARRAY[&#x27;engine_part&#x27;, &#x27;fuel_cell&#x27;, &#x27;navigation_chip&#x27;];</sql-placeholder>
+            <sql-placeholder></sql-placeholder>
         </select-scene>
         <select-scene is-row-order-relevant="false" is-col-order-relevant="false" are-col-names-relevant="false">
-            <text>Goal 2: Also determine which adventurer carries all three required parts using the @&#x3E; (contains) operator.</text>
+            <text>Goal 2: Then, reusing the @&#x3E; operator from Mission 8, determine which adventurer carries all three required parts.</text>
             <sql-solution>SELECT name, inventory FROM adventurers
 WHERE inventory @&#x3E; ARRAY[&#x27;engine_part&#x27;, &#x27;fuel_cell&#x27;, &#x27;navigation_chip&#x27;];</sql-solution>
-            <sql-placeholder>SELECT name, inventory FROM adventurers
-WHERE inventory ... ARRAY[&#x27;engine_part&#x27;, &#x27;fuel_cell&#x27;, &#x27;navigation_chip&#x27;];</sql-placeholder>
+            <sql-placeholder></sql-placeholder>
         </select-scene>
         <text-scene>
-            <text>Mission 7 &#x2013; &#x26;&#x26; and @&#x3E;: That&#x27;s the full toolkit. You went from basic selects to array set operations in seven missions. Nova escapes &#x2014; and you&#x27;ve earned it.</text>
+            <text>Mission 9 -  Finding Overlapping Inventories: Two operators, one mission. You know when to cast a wide net with &#x26;&#x26; and when to demand the full match with @&#x3E; &#x2014; that&#x27;s not just querying, that&#x27;s strategy.</text>
         </text-scene>
         <text-scene>
-            <text>Nova jumped up from her chair. &#x201C;Dorn has everything we need! All three shuttle parts &#x2014; plus a repair kit and the shield module!&#x201D;
-
-Lyra placed her hand on the shuttle&#x2019;s activation console. &#x201C;Then our path is clear. Dorn will power the shuttle.&#x201D;</text>
+            <text>Nova jumped up from her chair. &#x201C;Dorn has everything we need! All three shuttle parts &#x2014; plus a repair kit!&#x201D;</text>
+        </text-scene>
+        <text-scene>
+            <text>Lyra placed her hand on the shuttle&#x2019;s activation console. &#x201C;Then our path is clear. Dorn will power the shuttle.&#x201D;</text>
         </text-scene>
         <text-scene>
             <text>The terminal flashed green:
@@ -232,12 +280,12 @@ Lyra smiled. &#x201C;The data was always there. You just needed to learn how to 
         <text-scene>
             <text>ANY(array): Check if a value exists anywhere inside an array column, without matching the whole array.
 UNNEST(array): Expand an array into individual rows. The gateway to aggregating and filtering array data.
-UNNEST + GROUP BY: Flatten first, then aggregate. This pattern lets you count, rank, or analyze elements across all arrays in a column.
-</text>
+UNNEST + GROUP BY: Flatten first, then aggregate. This pattern lets you count, rank, or analyze elements across all arrays in a column.</text>
         </text-scene>
         <text-scene>
             <text>array_append(): Add an element to the end of an existing array directly in an UPDATE. No schema changes, no extra tables.
-array_length(): Get the number of elements in an array. Use it in WHERE, ORDER BY, or SELECT to work with array size as data.</text>
+array_length(): Get the number of elements in an array. Use it in WHERE, ORDER BY, or SELECT to work with array size as data.
+array_remove(): scans through an array and removes every occurrence of the given element &#x2014; leaving the rest of the array intact. </text>
         </text-scene>
         <text-scene>
             <text>&#x26;&#x26; (overlap): Returns true if two arrays share at least one element. Great for &#x22;does this inventory contain any of these?&#x22; queries.
