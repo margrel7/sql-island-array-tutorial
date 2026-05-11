@@ -62,7 +62,7 @@ FROM adventurers;</sql-solution>
         </select-scene>
         <text-scene>
             <text>Mission 1 &#x2013; Inspect the Guild Database: 
-You&#x27;ve taken your first look at the guild&#x27;s records. Every great adventure starts with knowing what you&#x27;re working with &#x2014; solid start.</text>
+You&#x27;ve taken your first look at the guild&#x27;s records. Nice work! Every great adventure starts with knowing what you&#x27;re working with &#x2014; solid start.</text>
         </text-scene>
         <text-scene>
             <text>Nova studied the results. &#x201C;Alright, I can see all the inventories. But these arrays&#x2026; how do I search inside them?&#x201D;
@@ -85,7 +85,7 @@ WHERE &#x27;fuel_cell&#x27; = ANY(inventory);</sql-solution>
         </select-scene>
         <text-scene>
             <text>Mission 2 &#x2013; Find the Fuel Cell: 
-Fuel cells found! You just learned one of the most useful array tricks: searching inside a column instead of matching the whole thing. Keep that in your toolkit.</text>
+Fuel cells found! Good job! You just learned one of the most useful array tricks: searching inside a column instead of matching the whole thing. Keep that in your toolkit.</text>
         </text-scene>
         <text-scene>
             <text>Lyra pulled up a checklist. &#x201C;The shuttle needs several components. Before we start collecting, we need a complete flat list of every item currently held by the guild &#x2014; one item per row. That way we can easily count and compare.&#x201D;</text>
@@ -129,7 +129,7 @@ ORDER BY item_count DESC;</sql-placeholder>
         </select-scene>
         <text-scene>
             <text>Mission 4 &#x2013; Counting the Parts:
-That&#x27;s real data engineering right there. Combining unnest with aggregation is how you turn messy array data into actual insights.</text>
+That&#x27;s real data engineering right there. Well done! Combining unnest with aggregation is how you turn messy array data into actual insights.</text>
         </text-scene>
         <text-scene>
             <text>Lyra nodded approvingly. &#x201C;We have at least two of most parts, and three fuel cells. The shuttle only needs one of each &#x2014; we have enough, provided we can collect them.&#x201D;</text>
@@ -151,7 +151,7 @@ WHERE name = &#x27;Dorn&#x27;;</sql-solution>
         </manipulate-scene>
         <text-scene>
             <text>Mission 5 &#x2013; Equipping the Shuttle Engineer: 
-Clean update, no extra tables needed. You now know how to grow an array in place &#x2014; that&#x27;s more powerful than it looks.</text>
+Clean update, no extra tables needed. Congratulations! You now know how to grow an array in place &#x2014; that&#x27;s more powerful than it looks.</text>
         </text-scene>
         <text-scene>
             <text>Nova grinned. &#x201C;Dorn is now the best-equipped adventurer on the island!&#x201D;
@@ -175,7 +175,7 @@ WHERE ... &#x3E;= 3
 ORDER BY num_items DESC;</sql-placeholder>
         </select-scene>
         <text-scene>
-            <text>Mission 6 &#x2013; Inventory Size Check: Good eye for detail. Filtering and sorting by array size is a subtle but practical skill &#x2014; and you&#x27;ve got it down.</text>
+            <text>Mission 6 &#x2013; Inventory Size Check: Good eye for detail. Filtering and sorting by array size is a subtle but practical skill &#x2014; and you&#x27;ve got it down. Good job!</text>
         </text-scene>
         <text-scene>
             <text>Lyra checked the names. &#x201C;Dorn, Aria, and Ciri qualify for the shuttle. Borin and Elva will have to stay unless they gather more supplies.&#x201D;
@@ -200,7 +200,7 @@ WHERE name = &#x27;Dorn&#x27;;</sql-solution>
             <sql-placeholder></sql-placeholder>
         </manipulate-scene>
         <text-scene>
-            <text>Mission 7 - Lightening the Load: Clean removal, no side effects. You can now add and remove individual elements from arrays with full precision &#x2014; that&#x27;s the complete update toolkit.</text>
+            <text>Mission 7 - Lightening the Load: Clean removal, no side effects. You can now add and remove individual elements from arrays with full precision &#x2014; that&#x27;s the complete update toolkit. Keep going!</text>
         </text-scene>
         <text-scene>
             <text>Nova confirmed the weight sensor was now green. &#x201C;Dorn is back within the limit. Ready for the next check.&#x201D;</text>
@@ -222,7 +222,7 @@ WHERE inventory @&#x3E; ARRAY[&#x27;repair_kit&#x27;, &#x27;toolkit&#x27;];</sql
 WHERE inventory ... ARRAY[&#x27;repair_kit&#x27;, &#x27;toolkit&#x27;];</sql-placeholder>
         </select-scene>
         <text-scene>
-            <text>Mission 8 - The Complete Toolkit (Contains): Containment mastered. You&#x27;re no longer just reading arrays &#x2014; you&#x27;re interrogating them. The @&#x3E; operator is one of PostgreSQL&#x27;s most powerful tools, and it&#x27;s now yours.</text>
+            <text>Mission 8 - The Complete Toolkit (Contains): Containment mastered. You&#x27;re no longer just reading arrays &#x2014; you&#x27;re interrogating them. Nice work! The @&#x3E; operator is one of PostgreSQL&#x27;s most powerful tools, and it&#x27;s now yours.</text>
         </text-scene>
         <text-scene>
             <text>Nova nodded. &#x201C;Ciri has both &#x2014; she&#x2019;s our backup engineer.&#x201D;
@@ -252,7 +252,7 @@ WHERE inventory @&#x3E; ARRAY[&#x27;engine_part&#x27;, &#x27;fuel_cell&#x27;, &#
             <sql-placeholder></sql-placeholder>
         </select-scene>
         <text-scene>
-            <text>Mission 9 -  Finding Overlapping Inventories: Two operators, one mission. You know when to cast a wide net with &#x26;&#x26; and when to demand the full match with @&#x3E; &#x2014; that&#x27;s not just querying, that&#x27;s strategy.</text>
+            <text>Mission 9 -  Finding Overlapping Inventories: Two operators, one mission. You know when to cast a wide net with &#x26;&#x26; and when to demand the full match with @&#x3E; &#x2014; that&#x27;s not just querying, that&#x27;s strategy. Well done!</text>
         </text-scene>
         <text-scene>
             <text>Nova jumped up from her chair. &#x201C;Dorn has everything we need! All three shuttle parts &#x2014; plus a repair kit!&#x201D;</text>
