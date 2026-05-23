@@ -1,8 +1,8 @@
- <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <game>
     <head>
         <title>SQL Island Sequel - The Escape Protocol (T6)</title>
-        <teaser>Nova and Archivist Lyra search the Adventurers&#x2019; Guild database to find the parts needed to escape SQL Island.</teaser>
+        <teaser>Nova and Archivist Lyra use SQL arrays to query the Adventurers&#x2019; Guild database to find the parts needed to escape SQL Island.</teaser>
         <copyright>Kanhaiya Kanhaiya, Simon Meyer, Fabio Scherrer, Selma Wirth &#xA9; CC BY 4.0</copyright>
     </head>
     <scenes>
